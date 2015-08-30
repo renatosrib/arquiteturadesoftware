@@ -7,20 +7,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.text.DateFormatter;
 
-import com.sun.javafx.binding.StringFormatter;
-import com.sun.xml.internal.ws.api.Component;
-
-public class Main extends JPanel	{
+public class Main{
 	public JLabel tempo;
 	static int time = 0;
 	static final Color COR_CASA_SELECIONADA = Color.CYAN;
@@ -31,6 +24,9 @@ public class Main extends JPanel	{
 	
 	static final String CASA_VAZIA = "_";
 	
+	public void trocarCronometro(){
+		
+	}
 	
 
 	public static void main(String[] args) throws InterruptedException {
@@ -38,8 +34,8 @@ public class Main extends JPanel	{
 		Main m = new Main();
 		final int secs = 60;
 		JFrame janela = new JFrame();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-		Timer timer = new Timer(2000, new ActionListener() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Timer timer = new Timer(0, new ActionListener() {
 			int temp = secs;
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -72,7 +68,15 @@ public class Main extends JPanel	{
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//JLabel tempo2 = new JLabel(String.valueOf(15));
 /*		janela.add(tempo2);
- */		while(true){
+	 
+*/
+		criarJanela();
+		MouseAdapter tratadorCliques = new TratadorCliques();
+		
+		preencherJanelaComCasas(tabuleiro, janela, tratadorCliques);
+		
+		exibirJanela(janela);
+	while(true){
 			 timer.setDelay(time++);
 			 janela.add(m.tempo);
 			 janela.repaint();
@@ -80,41 +84,11 @@ public class Main extends JPanel	{
 			 janela.remove(m.tempo);
  		}
 		
-	
-//		
-//		for (int i=0;i<10000;i++){
-//			//tempo = new JLabel(String.valueOf(i));
-//			
-//			if(tempo.isVisible()){
-//				tempo.setVisible(false);
-//				tempo2.setVisible(true);
-//				Thread.sleep(500);
-//				
-//			}else{
-//				tempo.setVisible(true);
-//				tempo2.setVisible(false);
-//				Thread.sleep(500);
-//			}
-//			
-//			
-//		}
-		/*while(true){
-			tempo.setVisible(true);
-			
-			Thread.sleep(new Long(1000));
-			timer.setDelay(1000);
-		}*/
-				
+
 
 		
 		
-//				criarJanela();
-//
-//		MouseAdapter tratadorCliques = new TratadorCliques();
-//
-//		preencherJanelaComCasas(tabuleiro, janela, tratadorCliques);
-//
-//		exibirJanela(janela);
+
 	}
 
 		private static JFrame criarJanela() {
@@ -147,5 +121,10 @@ public class Main extends JPanel	{
 	private static void exibirJanela(JFrame janela) {
 		janela.setLocationRelativeTo(null);
 		janela.setVisible(true);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		String string  = "teset";
+		string.length();
 	}
 }
