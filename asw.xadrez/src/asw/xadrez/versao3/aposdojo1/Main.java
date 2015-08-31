@@ -14,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class Main{
-	public JLabel tempo;
 	static int time = 0;
 	static final Color COR_CASA_SELECIONADA = Color.CYAN;
 	static final Color COR_CASA_NAO_SELECIONADA = new Color(120, 120, 120);
@@ -30,92 +29,60 @@ public class Main{
 	
 
 	public static void main(String[] args) throws InterruptedException {
-		Tabuleiro tabuleiro = new Tabuleiro();
-		Main m = new Main();
-		final int secs = 60;
-		JFrame janela = new JFrame();
+		JLabel tempo;
+		Tabuleiro tabuleiro = new Tabuleiro();		
+		Cronometro cronometro = new Cronometro(500);
+		
+		JFrame janela = criarJanela();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		Timer timer = new Timer(0, new ActionListener() {
-			int temp = secs;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Date updatedTime = null;				
-				
-				try {
-					updatedTime = (Date) dateFormat.parse(String.valueOf(temp/3600+":"+temp/60+":"+temp%60));
-				} catch (ParseException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				m.tempo.setText(dateFormat.format(updatedTime));	
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				temp ++;
-			}
-		}); 
-		timer.setInitialDelay(2000);
-		timer.start();
-		janela.setSize(300, 300);
+		
+		janela.setSize(300, 400);
 		janela.setVisible(true);
 		
-		m.tempo = new JLabel(String.valueOf(timer.getDelay()));
-		m.tempo.setLayout(null);
+		tempo = new JLabel(String.valueOf(cronometro.remainSeconds()/3600+":"+cronometro.remainSeconds()/60+":"+cronometro.remainSeconds()%60));
+		tempo.setLayout(null);
 		
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//JLabel tempo2 = new JLabel(String.valueOf(15));
 /*		janela.add(tempo2);
 	 
 */
-		criarJanela();
+		
 		MouseAdapter tratadorCliques = new TratadorCliques();
 		
 		preencherJanelaComCasas(tabuleiro, janela, tratadorCliques);
 		
 		exibirJanela(janela);
-	while(true){
-			 timer.setDelay(time++);
-			 janela.add(m.tempo);
-			 janela.repaint();
-			 Thread.sleep(500);
-			 janela.remove(m.tempo);
- 		}
-		
-
-
-		
+				
 		
 
 	}
 
 		private static JFrame criarJanela() {
-		JFrame janela = new JFrame("Xadrez");
+		JFrame janela = new JFrame("Xadrez");		
 		janela.setLayout(new GridLayout(Constantes.NUMERO_LINHAS_TABULEIRO, Constantes.NUMERO_COLUNAS_TABULEIRO));
-		janela.setSize(LARGURA_EM_PIXELS, ALTURA_EM_PIXELS);
-		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		janela.setSize(LARGURA_EM_PIXELS, ALTURA_EM_PIXELS);		
 		return janela;
 	}
 
 	private static void preencherJanelaComCasas(Tabuleiro tabuleiro, JFrame janela,
 			MouseAdapter tratadorCliques) {
 		
-		
+		JLabel timeRemain = new JLabel("teste");
 		for (int i = 0; i < Constantes.NUMERO_LINHAS_TABULEIRO; ++i) {
 			for (int j = 0; j < Constantes.NUMERO_COLUNAS_TABULEIRO; ++j) {
 				Peca peca = tabuleiro.getPeca(i, j);
+				
 				JLabel label = new JLabel(peca.toString());
 				label.setForeground(peca.getCor() == Cor.INDEFINIDO ? Color.CYAN:peca.getCor() == Cor.PRETO ? Color.BLACK : Color.WHITE);
 				label.setBackground(COR_CASA_NAO_SELECIONADA);
 				label.setHorizontalAlignment(JLabel.CENTER);
 				label.setVerticalAlignment(JLabel.CENTER);
 				label.setOpaque(true);
-				label.addMouseListener(tratadorCliques);
-				janela.add(label);
+				label.addMouseListener(tratadorCliques);						
 			}
 		}
+		janela.add(timeRemain);
 	}
 
 	private static void exibirJanela(JFrame janela) {
