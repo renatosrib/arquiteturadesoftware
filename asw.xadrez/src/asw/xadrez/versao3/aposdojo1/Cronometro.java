@@ -53,8 +53,6 @@ public class Cronometro {
 	}
 	
 	public void stop(){
-		timer.stop();
-	}
-	
-
+		timer.stop();	
+	}	
 }
