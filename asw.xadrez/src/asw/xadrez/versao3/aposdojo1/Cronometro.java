@@ -19,7 +19,7 @@ public class Cronometro {
 	private Timer timer;
 	
 	
-	public Cronometro(int timeInSeconds){
+	public Cronometro(final int timeInSeconds){
 		this.timeInSeconds = timeInSeconds;
 		 timer = new Timer(0, new ActionListener() {
 			int temp = timeInSeconds;
