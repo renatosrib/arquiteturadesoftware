@@ -1,14 +1,12 @@
 package asw.xadrez.versao3.aposdojo1;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class Main {
@@ -17,40 +15,43 @@ public class Main {
 	static final Color COR_CASA_NAO_SELECIONADA = new Color(120, 120, 120);
 	private static final int LARGURA_EM_PIXELS = 480;
 	private static final int ALTURA_EM_PIXELS = 480;
-	private static final int LARGURA_CELULA = 60; 
-	
+	private static JFrame janela;
 	static final String CASA_VAZIA = "_";
 
 	public static void main(String[] args) {
 		
 		int time  = Integer.parseInt(JOptionPane.showInputDialog("Digite os minutos de duração da partida :"));
-		Cronometro cronometro = new Cronometro(time*60);
-		cronometro.getTempoLabel();
+		Cronometro cronometroBranca = new Cronometro(time*60, Cor.BRANCO);
+		Cronometro cronometroPreto = new Cronometro(time*60, Cor.PRETO);
+		cronometroBranca.getTempoLabel();
 		Tabuleiro tabuleiro = new Tabuleiro();
 		
-		JFrame janela = criarJanela();	
+		janela = criarJanela();	
 		
 		
-		MouseAdapter tratadorCliques = new TratadorCliques();
-		JPanel panelRelogio = new JPanel();
-		//cronometro.start();
-		cronometro.runTimer();
-		JLabel labelRelogio = cronometro.getTempoLabel();
+		MouseAdapter tratadorCliques = new TratadorCliques(cronometroBranca,cronometroPreto);
+		cronometroBranca.start();
+		JLabel labelRelogio = cronometroBranca.getTempoLabel();
 		labelRelogio.setVerticalTextPosition(SwingConstants.CENTER);
-		//labelRelogio.add(cronometro.getTempoLabel());
-		//controle.setSize(new Dimension(256, 40));
-		//label.setVerticalAlignment(12);
 		janela.add(labelRelogio);
-		janela.add(new JLabel());
+		
 		JLabel labelBrancas = new JLabel("Brancas");
 		labelBrancas.setVerticalTextPosition(SwingConstants.CENTER);
+		labelBrancas.setHorizontalAlignment(SwingConstants.RIGHT);
+		
 		janela.add(labelBrancas);
 		janela.add(new JLabel());
 		janela.add(new JLabel());
 		janela.add(new JLabel());
-		janela.add(new JLabel("Pretas"));
 		janela.add(new JLabel());
+		janela.add(new JLabel("Pretas"));
+		
+		JLabel labelPretas = cronometroPreto.getTempoLabel();
+		labelPretas.setVerticalTextPosition(SwingConstants.CENTER);
+		janela.add(labelPretas);
+		
 		janela.setResizable(false);
+		
 		preencherJanelaComCasas(tabuleiro, janela, tratadorCliques);
 
 		exibirJanela(janela);
@@ -87,5 +88,10 @@ public class Main {
 	private static void exibirJanela(JFrame janela) {
 		janela.setLocationRelativeTo(null);
 		janela.setVisible(true);
+	}
+	public static void finalizarJogo(Cor corPerdedora){
+		String cor = corPerdedora.equals(Cor.BRANCO) ? "Brancas" : "Pretas";
+		JOptionPane.showMessageDialog(null, cor+" Perderam!");
+		System.exit(0);
 	}
 }

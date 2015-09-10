@@ -7,6 +7,14 @@ import javax.swing.JLabel;
 
 final class TratadorCliques extends MouseAdapter {
 	private JLabel casaOrigem;
+	private Cronometro tempoPlayer1;
+	private Cronometro tempoPlayer2;
+	
+	public TratadorCliques(Cronometro player1, Cronometro player2) {
+		super();
+		this.tempoPlayer1 = player1;
+		this.tempoPlayer2 = player2;
+	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -18,6 +26,7 @@ final class TratadorCliques extends MouseAdapter {
 		} else {
 			if (casaClicada != casaOrigem) moverPeca(casaClicada);
 			if (casaClicada == casaOrigem) deselecionarCasa(casaClicada);
+			
 		}
 	}
 	private void deselecionarCasa(JLabel casaClicada){
@@ -42,5 +51,10 @@ final class TratadorCliques extends MouseAdapter {
 		casaOrigem.setForeground(ConversorCores.deCorParaAwtColor(Cor.INDEFINIDO));
 
 		casaOrigem = null;
+		trocarCronometros();
+	}
+	private void trocarCronometros(){
+		tempoPlayer1.changeStatus();
+		tempoPlayer2.changeStatus();
 	}
 }
