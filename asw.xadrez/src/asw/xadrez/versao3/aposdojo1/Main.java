@@ -31,10 +31,10 @@ public class Main {
 		JFrame janela = criarJanela();	
 		
 		
-		
 		MouseAdapter tratadorCliques = new TratadorCliques();
 		JPanel panelRelogio = new JPanel();
-		cronometro.start();
+		//cronometro.start();
+		cronometro.runTimer();
 		JLabel labelRelogio = cronometro.getTempoLabel();
 		labelRelogio.setVerticalTextPosition(SwingConstants.CENTER);
 		//labelRelogio.add(cronometro.getTempoLabel());
